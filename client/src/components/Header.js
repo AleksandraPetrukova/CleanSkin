@@ -42,7 +42,7 @@ const StyledCont = styled.div`
     flex-direction: row;
     justify-content:space-between;
     align-items: center;
-    background-color:#9fe3a1;
+    background-color:#aac26e;
     
     height: 60px;
     

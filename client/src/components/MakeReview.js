@@ -2,8 +2,16 @@ import { useState } from "react";
 import styled from "styled-components";
 
 const MakeReview = () => {
+
+    const url = "https://api.cloudinary.com/v1_1/dcecm3xxu/image/upload";
+    const form = document.querySelector("form");
+
     const [formData, setFormData] = useState({});
-    
+    let numbers =[];
+    for (let i = 1; i <= 10; i++) {
+        numbers.push(i);
+    }
+    //two fetches cloudinary post async await in context
     const handleChange = (key, value) => {
         setFormData({
             ...formData,
@@ -11,11 +19,16 @@ const MakeReview = () => {
         })
     }
 
-    
+    const handleSubmit = async () => {
+        e.preventdefault();
+        const files = document.querySelector("[type=file]").files;
+        const formData = new FormData();
+
+    }
     return ( 
         <StyledCont>
             
-            <StyledForm>
+            <StyledForm onSubmit={handleSubmit}>
                 <StyledHeading>Write your review:</StyledHeading>
                 <StyledCard>
                     <StyledLabel>Product Name:</StyledLabel>
@@ -40,13 +53,37 @@ const MakeReview = () => {
                 </StyledCard>
                 <div>
                     <label>Your rating:</label>
-                    
+                    <StyledRowNumb>
+                        {numbers.map((number) => {
+                            return (
+                                <StyledRating>
+                                    <input type="radio" name="radiobutton" value={number} onChange={(e) => {setFormData({...formData, rating : e.target.value})}}/>
+                                    <label>{number}</label>
+                                </StyledRating>
+                            )
+                        })}
+                    </StyledRowNumb>
                 </div>
+                <div>Upload your image</div>
+                <button>Upload your image</button>
             </StyledForm>
         </StyledCont>
     );
 }
 
+const StyledRating = styled.div`
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items:center;
+    gap:5px;
+    font-weight:bold;
+`
+const StyledRowNumb = styled.div`
+    display: flex;
+    flex-direction:row;
+    justify-content: space-evenly;
+`
 const StyledCard = styled.div`
     display: flex;
     gap: 20px;

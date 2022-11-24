@@ -18,7 +18,7 @@ const Review = () => {
         }))
     }, []);
     
-    console.log(comments)
+    
     if (loading) {
         return <StyledLoader color="#9fe3a1"/>
     }
