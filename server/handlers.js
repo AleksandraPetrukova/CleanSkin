@@ -36,7 +36,9 @@ const getAllPosts = async (req, res) => {
     client.close();
 }
 
-
+////////////////////////
+// All user by handle //
+////////////////////////
 const getUser = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     const { handle } = req.params;
@@ -51,6 +53,9 @@ const getUser = async (req, res) => {
     client.close();
 }
 
+////////////////////////////
+// All review bu reviewId //
+////////////////////////////
 const getReview = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     const { reviewId } = req.params;
@@ -95,6 +100,18 @@ const checkUserEmail = async(req, res) => {
     }
 }
 
+const getUserReviews = async (req,res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    const { handle } = req.params;
+    await client.connect();
+    const db = client.db("ClearSkin");
+    const result = await db.collection("reviews").find().toArray();
+    const userResult = result.filter(review => handle===review.handle)
+    userResult?
+        res.status(200).json({ status: 200, data: userResult, message: "User reviews" })
+        :res.status(404).json({ status: 404, message: "Not Found" });
+}
+
 module.exports = {
     getAllUsers,
     getAllPosts,
@@ -102,4 +119,5 @@ module.exports = {
     checkUserEmail,
     addNewUser,
     getReview,
+    getUserReviews,
 };

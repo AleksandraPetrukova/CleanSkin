@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
+import {BounceLoader} from "react-spinners";
 
 const Review = () => {
     const [review, setReview] = useState(null);
     const [loading, setLoading] = useState(true);
     const {reviewId} = useParams();
     useEffect(() => {
-        // DONE: GET reservation
         fetch(`/get-review/${reviewId}`)
         .then (res => res.json()
         .then(data => {
@@ -18,21 +18,36 @@ const Review = () => {
     
     // console.log(review)
     if (loading) {
-        return <div>wait</div>
+        return <StyledLoader color="#9fe3a1"/>
     }
     return ( 
         <StyledCont>
             <StyledCard>
                 <StyledName>{review.productName}</StyledName>
-                <div>{review.type}</div>
+                <StyledType>{review.type}</StyledType>
+                <Link to={`/profile/${review.handle}`}>
                 <div>by {review.displayName}</div>
-                <div>{review.rating}/10</div>
+                </Link>
+                <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
                 <div>{review.review}</div>
             </StyledCard>
         </StyledCont>
     );
 }
 
+const StyledNum = styled.span`
+    font-size:30px;
+    font-weight:bold;
+`
+const StyledRating = styled.div`
+    font-size:25px;
+`
+const StyledType = styled.div`
+    font-style:italic;
+    font-size:20px;
+    color:gray;
+    margin-bottom:30px;
+`
 const StyledName = styled.div`
     font-size:30px;
     border-bottom:3px solid lightgray;
@@ -52,5 +67,11 @@ const StyledCont = styled.div`
     align-items:center;
     width: 100%;
     height:100vh;
+`
+const StyledLoader = styled(BounceLoader)`
+    position: absolute;
+    top: 300px;
+    left: 45%;
+    z-index: 5;
 `
 export default Review;

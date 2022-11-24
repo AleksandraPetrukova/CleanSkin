@@ -12,6 +12,7 @@ const {
     addNewUser,
     checkUserEmail,
     getReview,
+    getUserReviews,
 } = require("./handlers");
 
 express ()
@@ -23,6 +24,7 @@ express ()
     .get ("/get-reviews", getAllPosts)
     .get ("/get-user/:handle", getUser)
     .get ("/get-review/:reviewId", getReview)
+    .get("/get-user-reviews/:handle", getUserReviews)
     .post("/add-user", addNewUser)
     .post("/find-user", checkUserEmail)
 

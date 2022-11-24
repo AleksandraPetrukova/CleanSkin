@@ -14,7 +14,9 @@ const Header = () => {
                 <StyledImg src={Logo}/>
                 <h1>ClearSkin</h1>
             </StyledLink>
-            <SearchBar/>
+            <SearchBar 
+            
+            />
             <div>
                 <LoginButton/>
                 <LogoutButton/>
@@ -42,7 +44,7 @@ const StyledCont = styled.div`
     align-items: center;
     background-color:#9fe3a1;
     
-    height: 50px;
+    height: 60px;
     
 `
 
