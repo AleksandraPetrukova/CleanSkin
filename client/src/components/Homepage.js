@@ -30,19 +30,29 @@ const Homepage = () => {
             <StyledImg src={Banner}/>
             {reviews.map((review) => {
                 return (
-                    <Link to={`/review/${review._id}`}>
+                    <StyledLink to={`/review/${review._id}`}>
                         <StyledCont>
                             <StyledName>{review.productName}</StyledName>
                             <StyledAuthor>by {review.displayName}</StyledAuthor>
-                            <div>Rating: {review.rating}/10</div>
+                            <StyledRating>Rating: <StyledNumb>{review.rating}</StyledNumb>/10</StyledRating>
                         </StyledCont>
-                    </Link>
+                    </StyledLink>
                 )
             })}
         </div>
     )
 }
 
+const StyledRating = styled.div`
+    color:black;
+`
+const StyledNumb=styled.span`
+    font-weight:bold;
+    font-size: 25px;
+`
+const StyledLink = styled(NavLink)`
+    text-decoration:none;
+`
 const StyledLoader = styled(BounceLoader)`
     position: absolute;
     top: 300px;

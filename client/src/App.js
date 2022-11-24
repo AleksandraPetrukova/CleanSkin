@@ -4,6 +4,8 @@ import Header from "./components/Header"
 import Homepage from "./components/Homepage";
 import Review from "./components/Review";
 import Profile from "./components/Profile";
+import MakeReview from "./components/MakeReview";
+import MatchedSug from "./components/MatchedSug";
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
           <Route path="/" element={<Homepage/>}/>
           <Route path="/review/:reviewId" element={<Review/>}/>
           <Route path="/profile/:handle" element={<Profile/>}/>
+          <Route path="/createreview" element={<MakeReview/>}/>
+          <Route path="/matchedsuggestions" element={<MatchedSug/>}/>
         </Routes>
       </Wrapper>
     </BrowserRouter>

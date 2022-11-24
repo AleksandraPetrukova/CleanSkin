@@ -6,17 +6,19 @@ import {BounceLoader} from "react-spinners";
 const Review = () => {
     const [review, setReview] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [comments, setComments] = useState(null)
     const {reviewId} = useParams();
     useEffect(() => {
         fetch(`/get-review/${reviewId}`)
         .then (res => res.json()
         .then(data => {
             setReview(data.data)
+            setComments(data.data.comments)
             setLoading(false);
         }))
     }, []);
     
-    // console.log(review)
+    console.log(comments)
     if (loading) {
         return <StyledLoader color="#9fe3a1"/>
     }
@@ -31,6 +33,16 @@ const Review = () => {
                 <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
                 <div>{review.review}</div>
             </StyledCard>
+        <div>
+            {comments.map((comment) => {
+                return (
+                    <div>
+                    <div>{comment.displayName}</div>
+                    <div>{comment.comment}</div>
+                    </div>
+                )
+            })}
+        </div>
         </StyledCont>
     );
 }

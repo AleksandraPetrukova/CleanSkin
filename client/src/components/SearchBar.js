@@ -39,10 +39,10 @@ const SearchBar = () => {
         <StyledSearch>
             <StyledInput type='text' value={value}
             onChange={(ev)=>setValue(ev.target.value)}
-            // onKeyDown={(ev)=>{if (ev.key ==='Enter')
-            // {handleSelect(ev.target.value);
-            // }
-            // }}
+            onKeyDown={(ev)=>{if (ev.key ==='Enter')
+            {navigate(`/matchedsuggestions`)
+            }
+            }}
             />
             <FiSearch/>
         </StyledSearch>
