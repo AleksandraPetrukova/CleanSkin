@@ -98,6 +98,8 @@ const checkUserEmail = async(req, res) => {
     else {
         res.status(404).json({ status: 404, message: "Not Found" });
     }
+    client.close();
+    
 }
 
 const getUserReviews = async (req,res) => {
@@ -110,6 +112,34 @@ const getUserReviews = async (req,res) => {
     userResult?
         res.status(200).json({ status: 200, data: userResult, message: "User reviews" })
         :res.status(404).json({ status: 404, message: "Not Found" });
+    client.close();
+    
+}
+
+const addReview = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("ClearSkin");
+    const result = await db.collection("reviews").insertOne(req.body);
+    result?
+    res.status(201).json({ status: 201, data: result, message: "it worked" })
+    :res.status(500).json({ status: 500, message: "didnt work" });
+    client.close();
+}
+
+const addNewComment = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("ClearSkin");
+    const { reviewId } = req.params;
+    const {displayName, comment} = req.body;
+    const query = { _id:reviewId}
+    const newVal = { $push: {comments: {displayName, comment}}}
+    const result = await db.collection("reviews").updateOne(query, newVal)
+    result?
+    res.status(201).json({ status: 201, data: result, message: "it worked" })
+    :res.status(500).json({ status: 500, message: "didnt work" });
+    client.close();
 }
 
 module.exports = {
@@ -120,4 +150,6 @@ module.exports = {
     addNewUser,
     getReview,
     getUserReviews,
+    addReview,
+    addNewComment,
 };

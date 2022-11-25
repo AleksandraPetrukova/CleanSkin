@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {BounceLoader} from "react-spinners";
+import {useAuth0} from '@auth0/auth0-react'
 
 const Review = () => {
+    const { user, isAuthenticated, isLoading } = useAuth0();
     const [review, setReview] = useState(null);
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState(null)
+    const [userComment, setUserComment] = useState({})
+    
     const {reviewId} = useParams();
     useEffect(() => {
         fetch(`/get-review/${reviewId}`)
@@ -15,9 +19,20 @@ const Review = () => {
             setReview(data.data)
             setComments(data.data.comments)
             setLoading(false);
+            userComment.displayName = user.name
         }))
     }, []);
     
+    const handleSubmit = (e) => {
+        fetch(`/add-comment/${reviewId}`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userComment)
+        })
+    }
     
     if (loading) {
         return <StyledLoader color="#9fe3a1"/>
@@ -33,20 +48,68 @@ const Review = () => {
                 <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
                 <div>{review.review}</div>
             </StyledCard>
-        <div>
-            {comments.map((comment) => {
+        <StyledCommentCont>
+            <StyledCom>
+                {!isAuthenticated?<div>To write a comment please log in</div>:
+                <div> 
+                    <form onSubmit={handleSubmit}>
+                        <StyledTextArea type="text" id="comment" name="comment" onChange={(e) => {setUserComment({...userComment, comment : e.target.value})}}></StyledTextArea>
+                        <StyledBtn disabled={userComment.length===0} type="submit">Comment</StyledBtn>
+                    </form>
+                </div>}
+            </StyledCom>
+            {comments.length===0? <div>No comments yet</div>:
+            comments.map((comment) => {
                 return (
-                    <div>
+                    <StyledOldComment key={comment._id}>
                     <div>{comment.displayName}</div>
                     <div>{comment.comment}</div>
-                    </div>
+                    </StyledOldComment>
                 )
-            })}
-        </div>
+            })
+            }
+            
+        </StyledCommentCont>
         </StyledCont>
     );
 }
 
+const StyledBtn=styled.button`
+    background-color:#556b1e;
+    color:white;
+    border: none;
+    border-radius:5px;
+    height:30px;
+    width:80px;
+    font-size: 15px;
+    :hover{
+        background-color:#aac26e;
+    }
+`
+const StyledOldComment = styled.div`
+    margin-top:10px;
+    border-bottom:1px solid lightgray;
+    padding-bottom:15px;
+`
+const StyledTextArea=styled.textarea`
+    width:600px;
+    height:50px;
+    border-radius:10px;
+`
+const StyledCom = styled.div`
+    border-bottom: 2px solid lightgray;
+    padding-bottom:20px;
+`
+const StyledCommentCont = styled.div`
+    width:600px;
+    border: 2px solid lightgray;
+    padding-left:50px;
+    padding-right:50px;
+    padding-top:20px;
+    margin-top:20px;
+    padding-bottom:30px;
+    border-radius:15px;
+`
 const StyledNum = styled.span`
     font-size:30px;
     font-weight:bold;

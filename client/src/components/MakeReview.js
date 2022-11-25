@@ -1,8 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
+import {useAuth0} from '@auth0/auth0-react'
 
 const MakeReview = () => {
-
+    const { user, isAuthenticated, isLoading } = useAuth0();
     const url = "https://api.cloudinary.com/v1_1/dcecm3xxu/image/upload";
     const form = document.querySelector("form");
 
@@ -20,9 +21,25 @@ const MakeReview = () => {
     }
 
     const handleSubmit = async () => {
-        e.preventdefault();
+        
         const files = document.querySelector("[type=file]").files;
         const formData = new FormData();
+
+        const res = await fetch(url, {
+            method: "POST",
+            body: formData
+        })
+        //     .then((response) => {
+        //     return response.text();
+        // })
+        const addReview = await fetch(`/make-review`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
 
     }
     return ( 
@@ -66,6 +83,7 @@ const MakeReview = () => {
                 </div>
                 <div>Upload your image</div>
                 <button>Upload your image</button>
+                <button type="submit">Submit</button>
             </StyledForm>
         </StyledCont>
     );

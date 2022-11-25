@@ -13,6 +13,8 @@ const {
     checkUserEmail,
     getReview,
     getUserReviews,
+    addReview,
+    addNewComment,
 } = require("./handlers");
 
 express ()
@@ -27,6 +29,8 @@ express ()
     .get("/get-user-reviews/:handle", getUserReviews)
     .post("/add-user", addNewUser)
     .post("/find-user", checkUserEmail)
+    .post ("/make-review", addReview)
+    .post ("/add-comment/:reviewId", addNewComment)
 
     .listen(port, () => {
         console.log(`Example app listening on port ${port}`)
