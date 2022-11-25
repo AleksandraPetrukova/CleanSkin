@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import {useAuth0} from '@auth0/auth0-react'
+import { CurrentUserContext } from "./CurrentUserContext";
 
 const MakeReview = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const url = "https://api.cloudinary.com/v1_1/dcecm3xxu/image/upload";
     const form = document.querySelector("form");
-
+    const {currentUser} = useContext(CurrentUserContext)
     const [formData, setFormData] = useState({});
+    const [uploadedFile, setUploadedFile] = useState()
     let numbers =[];
     for (let i = 1; i <= 10; i++) {
         numbers.push(i);
@@ -19,28 +21,43 @@ const MakeReview = () => {
             [key]: value
         })
     }
-
-    const handleSubmit = async () => {
+    console.log(user)
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         
-        const files = document.querySelector("[type=file]").files;
-        const formData = new FormData();
-
-        const res = await fetch(url, {
-            method: "POST",
-            body: formData
-        })
-        //     .then((response) => {
-        //     return response.text();
-        // })
-        const addReview = await fetch(`/make-review`, {
+        
+        //file uploaded
+        if(uploadedFile){
+            const fileData = new FormData();
+            console.log(uploadedFile)
+            fileData.append("file", uploadedFile[0]);
+            fileData.append("upload_preset", "poi7lhvc");
+            const cloudinaryRes = await fetch (url, {
+                method: "POST",
+                body: fileData
+            })
+            const cloudinaryData = await cloudinaryRes.json()
+            const addReview = await fetch(`/make-review`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData)
-        })
-
+            body: JSON.stringify({...formData, imgSrc: cloudinaryData.secure_url, handle: user?.nickname, displayName: user?.name})
+            })
+            const addReviewNewData = await addReview.json()
+        }
+        else {
+            const addReview = await fetch(`/make-review`, {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({...formData, handle: user?.nickname, displayName: user?.name })
+                })
+                const addReviewNewData = await addReview.json()
+        }
     }
     return ( 
         <StyledCont>
@@ -82,7 +99,7 @@ const MakeReview = () => {
                     </StyledRowNumb>
                 </div>
                 <div>Upload your image</div>
-                <button>Upload your image</button>
+                <input type="file" onChange={(e) => {setUploadedFile(e.target.files)}}></input>
                 <button type="submit">Submit</button>
             </StyledForm>
         </StyledCont>

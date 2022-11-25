@@ -40,6 +40,10 @@ const Review = () => {
     return ( 
         <StyledCont>
             <StyledCard>
+            {review.imgSrc
+            ? <StyledImg src={review.imgSrc}/>
+            :<div> </div>}
+            <div>
                 <StyledName>{review.productName}</StyledName>
                 <StyledType>{review.type}</StyledType>
                 <Link to={`/profile/${review.handle}`}>
@@ -47,6 +51,7 @@ const Review = () => {
                 </Link>
                 <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
                 <div>{review.review}</div>
+            </div>    
             </StyledCard>
         <StyledCommentCont>
             <StyledCom>
@@ -58,8 +63,8 @@ const Review = () => {
                     </form>
                 </div>}
             </StyledCom>
-            {comments.length===0? <div>No comments yet</div>:
-            comments.map((comment) => {
+            {comments?.length===0? <div>No comments yet</div>:
+            comments?.map((comment) => {
                 return (
                     <StyledOldComment key={comment._id}>
                     <div>{comment.displayName}</div>
@@ -74,6 +79,9 @@ const Review = () => {
     );
 }
 
+const StyledImg = styled.img`
+    width:300px;
+`
 const StyledBtn=styled.button`
     background-color:#556b1e;
     color:white;
@@ -130,10 +138,13 @@ const StyledName = styled.div`
     margin-bottom:10px;
 `
 const StyledCard = styled.div`
-    width:600px;
+    width:800px;
     border: 2px solid green;
     padding:50px;
     border-radius:15px;
+    display:flex;
+    flex-direction:row;
+    gap: 20px;
 `
 const StyledCont = styled.div`
     flex-direction:column;

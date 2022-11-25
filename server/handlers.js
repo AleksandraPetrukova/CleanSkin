@@ -7,7 +7,7 @@ const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 };
-
+const { v4: uuidv4 } = require("uuid");
 ///////////////
 // All users //
 ///////////////
@@ -59,14 +59,17 @@ const getUser = async (req, res) => {
 const getReview = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     const { reviewId } = req.params;
+    console.log(reviewId)
     await client.connect();
     const db = client.db("ClearSkin");
     const result = await db.collection("reviews").findOne({_id: reviewId});
+    console.log(result)
     result
         ? res
             .status(200)
             .json({ status: 200, data: result, message: "User" })
         : res.status(404).json({ status: 404, message: "Not Found" });
+    
     client.close();
 }
 
@@ -120,7 +123,8 @@ const addReview = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("ClearSkin");
-    const result = await db.collection("reviews").insertOne(req.body);
+    req.body._id= uuidv4();
+    const result = await db.collection("reviews").insertOne({...req.body, comments:[]});
     result?
     res.status(201).json({ status: 201, data: result, message: "it worked" })
     :res.status(500).json({ status: 500, message: "didnt work" });

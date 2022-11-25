@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import {BounceLoader} from "react-spinners";
 import { Link, NavLink } from "react-router-dom";
+import {useAuth0} from '@auth0/auth0-react'
 
 const Profile = () => {
-    const [user, setUser] = useState(null);
+    const [userpage, setUserPage] = useState(null);
     const [reviews, setReviews] = useState(null);
     const [loadingUser, setLoadingUser] = useState(true);
     const [loadingReviews, setLoadingReviews] = useState(true);
+    const { user, isAuthenticated, isLoading } = useAuth0();
     const {handle} = useParams();
     useEffect(() => {
             fetch(`/get-user-reviews/${handle}`)
@@ -17,16 +19,16 @@ const Profile = () => {
                 setReviews(data.data)
                 setLoadingReviews(false);
             }))
-        }, []);
+        }, [handle]);
         useEffect(() => {
             fetch(`/get-user/${handle}`)
             .then (res => res.json()
             .then(data => {
-                setUser(data.data)
+                setUserPage(data.data)
                 setLoadingUser(false);
             }))
-        }, []);
-
+        }, [handle]);
+        
 
         if (loadingReviews) {
             return <StyledLoader color="#9fe3a1"/>
@@ -34,8 +36,11 @@ const Profile = () => {
         return ( 
         <StyledContBig>
             <StyledNameBig>
-            {/* <div>{user.handle}</div> */}
-            NAME
+            <div>{userpage?.displayName}</div>
+            {userpage?.handle === user?.nickname
+            ? <Link to='/createreview'><button>Make a review</button></Link>
+            :<div></div>}
+            
             </StyledNameBig>
             {reviews.map((review) => {
                 return(

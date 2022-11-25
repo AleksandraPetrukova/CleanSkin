@@ -6,6 +6,7 @@ export const CurrentUserContext = createContext(null)
 export const CurrentUserProvider = ({children}) => {
 
     const { user, isAuthenticated, isLoading } = useAuth0();
+    
     const [currentUser, setCurrentUser] = useState(null)
     // console.log(user)
     // console.log(isAuthenticated)
@@ -13,7 +14,7 @@ export const CurrentUserProvider = ({children}) => {
     useEffect(()=>{
         
         const checkUser = async () => {
-            console.log("hello")
+            
             try {
             const res = await fetch('/find-user', {
                 method: "POST",
