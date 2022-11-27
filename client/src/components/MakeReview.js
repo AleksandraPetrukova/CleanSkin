@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import {useAuth0} from '@auth0/auth0-react'
 import { CurrentUserContext } from "./CurrentUserContext";
+import {BounceLoader} from "react-spinners";
 
 const MakeReview = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -21,7 +22,7 @@ const MakeReview = () => {
             [key]: value
         })
     }
-    console.log(user)
+    // console.log(user)
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -59,9 +60,11 @@ const MakeReview = () => {
                 const addReviewNewData = await addReview.json()
         }
     }
+    if (isLoading) {
+        return <StyledLoader color="#9fe3a1"/>
+    }
     return ( 
         <StyledCont>
-            
             <StyledForm onSubmit={handleSubmit}>
                 <StyledHeading>Write your review:</StyledHeading>
                 <StyledCard>
@@ -83,14 +86,14 @@ const MakeReview = () => {
                 </StyledCard>
                 <StyledCard>
                     <StyledLabel>Your review:</StyledLabel>
-                    <textarea type="text" id="review" name="review" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/>
+                    <StyledtextArea type="text" id="review" name="review" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/>
                 </StyledCard>
                 <div>
-                    <label>Your rating:</label>
+                    <StyledLabel>Your rating:</StyledLabel>
                     <StyledRowNumb>
                         {numbers.map((number) => {
                             return (
-                                <StyledRating>
+                                <StyledRating key={number}>
                                     <input type="radio" name="radiobutton" value={number} onChange={(e) => {setFormData({...formData, rating : e.target.value})}}/>
                                     <label>{number}</label>
                                 </StyledRating>
@@ -98,14 +101,30 @@ const MakeReview = () => {
                         })}
                     </StyledRowNumb>
                 </div>
-                <div>Upload your image</div>
+                <StyledLabel>Upload your image</StyledLabel>
                 <input type="file" onChange={(e) => {setUploadedFile(e.target.files)}}></input>
-                <button type="submit">Submit</button>
+                <StyledButton type="submit">Submit</StyledButton>
             </StyledForm>
         </StyledCont>
     );
 }
 
+
+const StyledButton = styled.button`
+    background-color:#ffc65c;
+    border:none;
+    font-size: 16px;
+    border-radius:5px;
+    height:40px;
+    margin-top: 20px;
+    :hover{
+        background-color:#aac26e;
+    }
+`
+const StyledtextArea = styled.textarea`
+    width: 400px;
+    height:150px;
+`
 const StyledRating = styled.div`
     display: flex;
     flex-direction:column;
@@ -126,6 +145,8 @@ const StyledCard = styled.div`
 `
 const StyledLabel = styled.label`
     flex:1;
+    font-weight:bold;
+    margin-bottom:15px;
 `
 const StyledInput = styled.input`
     flex:2;
@@ -138,14 +159,24 @@ const StyledHeading = styled.div`
 const StyledForm = styled.form`
     border: 2px solid lightgray;
     padding: 50px;
+    width: 600px;
+    display:flex;
+    flex-direction:column;
 `
 const StyledCont = styled.div`
     display: flex;
-    justify-content:center;
+    /* justify-content:center; */
+    margin-top:100px;
     width: 100%;
     height:100vh;
     align-items:center;
     flex-direction:column;
     
+`
+const StyledLoader = styled(BounceLoader)`
+    position: absolute;
+    top: 300px;
+    left: 45%;
+    z-index: 5;
 `
 export default MakeReview;

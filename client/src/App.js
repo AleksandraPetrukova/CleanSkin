@@ -6,6 +6,7 @@ import Review from "./components/Review";
 import Profile from "./components/Profile";
 import MakeReview from "./components/MakeReview";
 import MatchedSug from "./components/MatchedSug";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/matchedsuggestions" element={<MatchedSug/>}/>
         </Routes>
       </Wrapper>
+      <Footer/>
     </BrowserRouter>
   );
 }

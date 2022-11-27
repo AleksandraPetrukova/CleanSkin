@@ -38,29 +38,54 @@ const Profile = () => {
             <StyledNameBig>
             <div>{userpage?.displayName}</div>
             {userpage?.handle === user?.nickname
-            ? <Link to='/createreview'><button>Make a review</button></Link>
+            ? <Link to='/createreview'><StyledButton>Make a review</StyledButton></Link>
             :<div></div>}
             
             </StyledNameBig>
             {reviews.map((review) => {
                 return(
-                    <Link to={`/review/${review._id}`}>
+                    <StyledLink to={`/review/${review._id}`} key={review._id}>
                         <StyledCont>
                             <StyledName>{review.productName}</StyledName>
                             <StyledAuthor>by {review.displayName}</StyledAuthor>
-                            <div>Rating: {review.rating}/10</div>
+                            <StyledRating>Rating: <StyledNumb>{review.rating}</StyledNumb>/10</StyledRating>
                         </StyledCont>
-                    </Link>
+                    </StyledLink>
                 )
             })}
         </StyledContBig>
     );
 }
 
+const StyledRating = styled.div`
+    color:black;
+`
+const StyledNumb=styled.span`
+    font-weight:bold;
+    font-size: 25px;
+`
+const StyledLink = styled(NavLink)`
+    text-decoration:none;
+    
+`
+const StyledButton = styled.button`
+    background-color:#ffc65c;
+    border:none;
+    height: 40px;
+    width: 130px;
+    font-size: 16px;
+    border-radius:5px;
+    :hover{
+        background-color:#aac26e;
+    }
+`
 const StyledName = styled.div`
     font-size:20px;
     font-weight:bold;
     color:green;
+    :hover {
+        color:#ffc65c;
+    }
 `
 const StyledAuthor = styled.div`
     color:gray;
@@ -78,15 +103,23 @@ const StyledCont = styled.div`
     padding-left:50px;
 `
 const StyledContBig = styled.div`
+    margin-top:50px;
     
-    position:absolute;
-    left: 50px;
+    /* position:absolute; */
+    /* left: 50px;
     top: 100px;
-    width:1100px;
+    width:1100px; */
+
 `
 const StyledNameBig = styled.div`
     font-size: 50px;
     border-bottom:3px solid lightgray;
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    margin-left:15px;
+    margin-right:15px;
 `
 const StyledLoader = styled(BounceLoader)`
     position: absolute;

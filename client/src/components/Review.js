@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {BounceLoader} from "react-spinners";
 import {useAuth0} from '@auth0/auth0-react'
@@ -19,7 +19,7 @@ const Review = () => {
             setReview(data.data)
             setComments(data.data.comments)
             setLoading(false);
-            userComment.displayName = user.name
+            userComment.displayName = user?.name
         }))
     }, []);
     
@@ -46,10 +46,12 @@ const Review = () => {
             <div>
                 <StyledName>{review.productName}</StyledName>
                 <StyledType>{review.type}</StyledType>
-                <Link to={`/profile/${review.handle}`}>
-                <div>by {review.displayName}</div>
-                </Link>
-                <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
+                <StyledNameRating>
+                    <StyledLinkProf to={`/profile/${review.handle}`}>
+                    <div>by {review.displayName}</div>
+                    </StyledLinkProf>
+                    <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
+                </StyledNameRating>
                 <div>{review.review}</div>
             </div>    
             </StyledCard>
@@ -67,7 +69,9 @@ const Review = () => {
             comments?.map((comment) => {
                 return (
                     <StyledOldComment key={comment._id}>
-                    <div>{comment.displayName}</div>
+                    <StyledLinkProf to={`/profile/${review.handle}`}>
+                        <StyledCommentName>{comment.displayName}</StyledCommentName>
+                    </StyledLinkProf>
                     <div>{comment.comment}</div>
                     </StyledOldComment>
                 )
@@ -79,8 +83,29 @@ const Review = () => {
     );
 }
 
+const StyledCommentName = styled.div`
+    font-weight:bold;
+    font-size:17px;
+    margin-bottom:5px;
+`
+const StyledNameRating = styled.div`
+    display:flex;
+    flex-direction:row;
+    align-items: flex-end;
+    justify-content:space-between;
+    margin-bottom: 10px;
+`
+const StyledLinkProf= styled(NavLink)`
+    color: black;
+    :hover{
+        color:#ffc65c;
+    }
+    text-decoration:none;
+`
 const StyledImg = styled.img`
     width:300px;
+    border-radius:5px;
+    box-shadow: rgba(170, 194, 110, 0.4) 0px 5px, rgba(170, 194, 110, 0.3) 0px 10px, rgba(170, 194, 110, 0.2) 0px 15px, rgba(170, 194, 110, 0.1) 0px 20px, rgba(170, 194, 110, 0.05) 0px 25px;
 `
 const StyledBtn=styled.button`
     background-color:#556b1e;
@@ -119,11 +144,11 @@ const StyledCommentCont = styled.div`
     border-radius:15px;
 `
 const StyledNum = styled.span`
-    font-size:30px;
+    font-size:40px;
     font-weight:bold;
 `
 const StyledRating = styled.div`
-    font-size:25px;
+    font-size:30px;
 `
 const StyledType = styled.div`
     font-style:italic;
@@ -133,7 +158,7 @@ const StyledType = styled.div`
 `
 const StyledName = styled.div`
     font-size:30px;
-    border-bottom:3px solid lightgray;
+    border-bottom:3px solid #aac26e;
     padding-bottom:10px;
     margin-bottom:10px;
 `

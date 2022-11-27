@@ -136,7 +136,7 @@ const StyledSearch = styled.div`
     gap:5px;
     border-radius:10px;
     position:relative;
-    
+    padding:5px;
 
 `
 const Prediction = styled.span`

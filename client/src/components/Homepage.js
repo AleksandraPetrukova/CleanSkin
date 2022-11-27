@@ -28,6 +28,7 @@ const Homepage = () => {
     return ( 
         <div>
             <StyledImg src={Banner}/>
+            <StyledSlogan>Your skin care guide to <StyledGlow>GLOW UP</StyledGlow></StyledSlogan>
             {reviews.map((review) => {
                 return (
                     <StyledLink to={`/review/${review._id}`}>
@@ -43,6 +44,28 @@ const Homepage = () => {
     )
 }
 
+const StyledSlogan = styled.div`
+    font-size:40px;
+    z-index:2;
+    position: absolute;
+    top: 200px;
+    left: 70%;
+    display:flex;
+    flex-direction: column;
+    color:white;
+`
+const StyledGlow = styled.span`
+    :hover{
+        animation: change 4s infinite;
+    }
+    @keyframes change {
+        0% {color: #33AB5F; left:0px; top:0px;}
+        25% {color: #8CDBA9; left:200px; top: 0px;}
+        50% {color: #fc8953; left: 200px; top: 200px;}
+        75% {color: #ffc65c; left: 0px; top: 200px;}
+        100% {color: #33AB5F;left:0px; top:0px;}
+    }
+`
 const StyledRating = styled.div`
     color:black;
 `
@@ -63,6 +86,9 @@ const StyledName = styled.div`
     font-size:20px;
     font-weight:bold;
     color:green;
+    :hover {
+        color:#ffc65c;
+    }
 `
 const StyledAuthor = styled.div`
     color:gray;
