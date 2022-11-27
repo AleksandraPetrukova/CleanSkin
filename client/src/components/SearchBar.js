@@ -120,12 +120,13 @@ const StyledUl = styled.ul`
     background-color: rgba(255, 255, 255, .5);
     list-style-type: none;
     padding:20px;
-    
+    border-radius:5px;
 `
 const StyledInput = styled.input`
     border: none;
     padding:5px;
     border-radius:10px;
+    width:300px;
 `
 const StyledSearch = styled.div`
     display:flex;
@@ -137,7 +138,8 @@ const StyledSearch = styled.div`
     border-radius:10px;
     position:relative;
     padding:5px;
-
+    border:none;
+    background-color: rgba(255, 255, 255, .5);
 `
 const Prediction = styled.span`
     font-weight: bold;

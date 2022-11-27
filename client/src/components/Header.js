@@ -8,7 +8,7 @@ import LogoutButton from "./LogoutButton";
 
 const Header = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
-    
+    // console.log(user)
     return ( 
         <StyledCont>
             <StyledLink to="/">
@@ -16,18 +16,26 @@ const Header = () => {
                 <h1>ClearSkin</h1>
             </StyledLink>
             <SearchBar />
-            {!isAuthenticated? <div>Join us!</div>:
-            <StyledProfileLink to={`/profile/${user.nickname}`}>
-            <div>Hello, {user.name}</div>
-            </StyledProfileLink>}
-            <div>
-                <LoginButton/>
-                <LogoutButton/>
-            </div>
+            <StyledProfile>
+                {!isAuthenticated? <div>Join us!</div>:
+                <StyledProfileLink to={`/profile/${user.nickname}`}>
+                <div>Hello, {user.given_name}</div>
+                </StyledProfileLink>}
+                <div>
+                    <LoginButton/>
+                    <LogoutButton/>
+                </div>
+            </StyledProfile>
         </StyledCont>
     );
 }
 
+const StyledProfile = styled.div`
+    display:flex;
+    flex-direction:row;
+    gap: 20px;
+    align-items: center;
+`
 const StyledProfileLink = styled(NavLink)`
     text-decoration:none;
     color: white;

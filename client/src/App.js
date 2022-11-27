@@ -7,10 +7,12 @@ import Profile from "./components/Profile";
 import MakeReview from "./components/MakeReview";
 import MatchedSug from "./components/MatchedSug";
 import Footer from "./components/Footer";
+import GlobalStyles from "./components/GlobalStyles";
 
 const App = () => {
   return (
     <BrowserRouter>
+    <GlobalStyles/>
       <Header/>
       <Wrapper>
         <Routes>

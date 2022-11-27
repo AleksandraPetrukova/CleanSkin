@@ -20,7 +20,7 @@ const Homepage = () => {
             })
         
     }, [])
-    console.log(reviews)
+    // console.log(reviews)
     
     if (loading) {
         return <StyledLoader color="#9fe3a1"/>
@@ -31,7 +31,7 @@ const Homepage = () => {
             <StyledSlogan>Your skin care guide to <StyledGlow>GLOW UP</StyledGlow></StyledSlogan>
             {reviews.map((review) => {
                 return (
-                    <StyledLink to={`/review/${review._id}`}>
+                    <StyledLink to={`/review/${review._id}`} key={review._id}>
                         <StyledCont>
                             <StyledName>{review.productName}</StyledName>
                             <StyledAuthor>by {review.displayName}</StyledAuthor>
@@ -55,15 +55,16 @@ const StyledSlogan = styled.div`
     color:white;
 `
 const StyledGlow = styled.span`
+    color:#8CDBA9;
     :hover{
         animation: change 4s infinite;
     }
     @keyframes change {
-        0% {color: #33AB5F; left:0px; top:0px;}
-        25% {color: #8CDBA9; left:200px; top: 0px;}
+        0% {color: #8CDBA9; left:0px; top:0px;}
+        25% {color: #33AB5F; left:200px; top: 0px;}
         50% {color: #fc8953; left: 200px; top: 200px;}
         75% {color: #ffc65c; left: 0px; top: 200px;}
-        100% {color: #33AB5F;left:0px; top:0px;}
+        100% {color: #8CDBA9;left:0px; top:0px;}
     }
 `
 const StyledRating = styled.div`

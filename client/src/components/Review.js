@@ -174,7 +174,9 @@ const StyledCard = styled.div`
 const StyledCont = styled.div`
     flex-direction:column;
     display:flex;
-    justify-content:center;
+    /* justify-content:center; */
+    margin-top: 50px;
+    
     align-items:center;
     width: 100%;
     height:100vh;
