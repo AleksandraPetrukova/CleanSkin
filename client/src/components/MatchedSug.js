@@ -12,7 +12,7 @@ const MatchedSug = () => {
         <div>
             {newMatchSug.map((review) => {
                 return (
-                    <div>
+                    <div key ={review._id}>
                         <StyledLink to={`/review/${review._id}`}>
                         <StyledCont>
                             <StyledName>{review.productName}</StyledName>

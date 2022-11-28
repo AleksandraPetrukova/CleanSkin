@@ -26,7 +26,7 @@ const Homepage = () => {
         return <StyledLoader color="#9fe3a1"/>
     }
     return ( 
-        <div>
+        <StyledContBig>
             <StyledImg src={Banner}/>
             <StyledSlogan>Your skin care guide to <StyledGlow>GLOW UP</StyledGlow></StyledSlogan>
             {reviews.map((review) => {
@@ -40,10 +40,14 @@ const Homepage = () => {
                     </StyledLink>
                 )
             })}
-        </div>
+        </StyledContBig>
     )
 }
 
+const StyledContBig = styled.div`
+    height:100vh;
+    width:100vw;
+`
 const StyledSlogan = styled.div`
     font-size:40px;
     z-index:2;

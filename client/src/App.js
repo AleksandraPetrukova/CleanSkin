@@ -8,6 +8,7 @@ import MakeReview from "./components/MakeReview";
 import MatchedSug from "./components/MatchedSug";
 import Footer from "./components/Footer";
 import GlobalStyles from "./components/GlobalStyles";
+import ThankYou from "./components/ThankYou";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/profile/:handle" element={<Profile/>}/>
           <Route path="/createreview" element={<MakeReview/>}/>
           <Route path="/matchedsuggestions" element={<MatchedSug/>}/>
+          <Route path="/thankyou" element={<ThankYou/>}/>
         </Routes>
       </Wrapper>
       <Footer/>

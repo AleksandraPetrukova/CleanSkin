@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {useAuth0} from '@auth0/auth0-react'
 import { CurrentUserContext } from "./CurrentUserContext";
 import {BounceLoader} from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const MakeReview = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -11,6 +12,7 @@ const MakeReview = () => {
     const {currentUser} = useContext(CurrentUserContext)
     const [formData, setFormData] = useState({});
     const [uploadedFile, setUploadedFile] = useState()
+    const navigate = useNavigate()
     let numbers =[];
     for (let i = 1; i <= 10; i++) {
         numbers.push(i);
@@ -58,6 +60,10 @@ const MakeReview = () => {
                 body: JSON.stringify({...formData, handle: user?.nickname, displayName: user?.name })
                 })
                 const addReviewNewData = await addReview.json()
+                .then(data => {
+                    navigate("/thankyou")
+                })
+                
         }
     }
     if (isLoading) {
