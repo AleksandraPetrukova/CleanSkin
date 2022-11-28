@@ -51,6 +51,7 @@ const StyledProfileLink = styled(NavLink)`
 const StyledImg = styled.img`
     height:40px;
     color: white;
+    filter: brightness(0) invert(1);
 `
 const StyledLink = styled(NavLink)`
     text-decoration:none;
@@ -58,7 +59,7 @@ const StyledLink = styled(NavLink)`
     display:flex;
     flex-direction: row;
     align-items: center;
-    
+    margin-left:15px;
 `
 const StyledCont = styled.div`
     display:flex;

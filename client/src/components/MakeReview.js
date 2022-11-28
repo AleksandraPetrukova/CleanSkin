@@ -77,11 +77,11 @@ const MakeReview = () => {
             <StyledForm onSubmit={handleSubmit}>
                 <StyledHeading>Write your review:</StyledHeading>
                 <StyledCard>
-                    <StyledLabel>Product Name:</StyledLabel>
+                    <StyledLabel>Product Name*:</StyledLabel>
                     <StyledInput type="text" id="productName" name="productName" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/>
                 </StyledCard>
                 <StyledCard>
-                    <StyledLabel>Type:</StyledLabel>
+                    <StyledLabel>Type*:</StyledLabel>
                     <select type="text" id="type" name="type" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}>
                         <option value="">Select type of the product</option>
                         <option value="Cleansers">Cleansers</option>
@@ -94,11 +94,11 @@ const MakeReview = () => {
                     </select>
                 </StyledCard>
                 <StyledCard>
-                    <StyledLabel>Your review:</StyledLabel>
+                    <StyledLabel>Your review*:</StyledLabel>
                     <StyledtextArea type="text" id="review" name="review" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/>
                 </StyledCard>
                 <div>
-                    <StyledLabel>Your rating:</StyledLabel>
+                    <StyledLabel>Your rating*:</StyledLabel>
                     <StyledRowNumb>
                         {numbers.map((number) => {
                             return (
@@ -110,6 +110,7 @@ const MakeReview = () => {
                         })}
                     </StyledRowNumb>
                 </div>
+                <StyledFillAbove>*Please, fill all required fields above</StyledFillAbove>
                 <StyledLabel>Upload your image</StyledLabel>
                 <input type="file" onChange={(e) => {setUploadedFile(e.target.files)}}></input>
                 <StyledButton type="submit">Submit</StyledButton>
@@ -118,7 +119,11 @@ const MakeReview = () => {
     );
 }
 
-
+const StyledFillAbove = styled.div`
+    font-size:15px;
+    color:gray;
+    margin: 10px;
+`
 const StyledButton = styled.button`
     background-color:#ffc65c;
     border:none;
@@ -146,6 +151,7 @@ const StyledRowNumb = styled.div`
     display: flex;
     flex-direction:row;
     justify-content: space-evenly;
+    margin-top:10px;
 `
 const StyledCard = styled.div`
     display: flex;

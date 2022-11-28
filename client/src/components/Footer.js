@@ -5,13 +5,13 @@ const Footer = () => {
         <StyledCont>
             <StyledText>MAKE YOUR SKIN <StyledGlow>(GLOW)</StyledGlow></StyledText>
             <div>
-                <div>About</div>
-                <div>Our Story</div>
-                <div>Contact Us</div>
-                <div>Join Our Team</div>
-                <div>Terms of Service</div>
-                <div>Privacy Policy</div>
-                <div>Accessibility</div>
+                <StyledAbout>About</StyledAbout>
+                <StyledHover>Our Story</StyledHover>
+                <StyledHover>Contact Us</StyledHover>
+                <StyledHover>Join Our Team</StyledHover>
+                <StyledHover>Terms of Service</StyledHover>
+                <StyledHover>Privacy Policy</StyledHover>
+                <StyledHover>Accessibility</StyledHover>
             </div>
             <div>
                 <div>cleanskin@cleanskin.com</div>
@@ -22,6 +22,14 @@ const Footer = () => {
     );
 }
 
+const StyledHover = styled.div`
+    :hover {
+        text-decoration:underline;
+    }
+`
+const StyledAbout = styled.div`
+    font-weight:bold;
+`
 const StyledCont = styled.div`
     /* background-color:rgba(170, 194, 110, .5); */
     border-top: 1px solid gray;

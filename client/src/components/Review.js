@@ -23,7 +23,7 @@ const Review = () => {
             setLoading(false);
             userComment.displayName = user?.name
         }))
-    }, []);
+    }, [reviewId]);
     
     const handleSubmit = (e) => {
         fetch(`/add-comment/${reviewId}`, {
@@ -36,29 +36,30 @@ const Review = () => {
         })
     }
     
-    if (loading) {
+    if (loading || !review || !comments) {
         return <StyledLoader color="#9fe3a1"/>
     }
     return ( 
+        
         <StyledCont>
             <StyledCardDeleteBtn>
                 <StyledCard>
-                    {review?.imgSrc
+                    {review.imgSrc
                     ? <StyledImg src={review.imgSrc}/>
                     :<div> </div>}
                     <div>
-                        <StyledName>{review?.productName}</StyledName>
-                        <StyledType>{review?.type}</StyledType>
+                        <StyledName>{review.productName}</StyledName>
+                        <StyledType>{review.type}</StyledType>
                         <StyledNameRating>
                             <StyledLinkProf to={`/profile/${review?.handle}`}>
-                            <div>by {review?.displayName}</div>
+                            <div>by {review.displayName}</div>
                             </StyledLinkProf>
-                            <StyledRating><StyledNum>{review?.rating}</StyledNum>/10</StyledRating>
+                            <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
                         </StyledNameRating>
-                        <div>{review?.review}</div>
+                        <div>{review.review}</div>
                     </div>
                 </StyledCard>
-                {review?.handle === user?.nickname &&
+                {review.handle === user?.nickname &&
                     <StyledDeleteBtn>
                             <StyledBtnDel onClick={() => {
                             setShowDeleteOption(true)
@@ -76,8 +77,8 @@ const Review = () => {
                     </form>
                 </div>}
             </StyledCom>
-            {comments?.length===0? <div>No comments yet</div>:
-            comments?.map((comment) => {
+            {comments.length===0? <div>No comments yet</div>:
+            comments.map((comment) => {
                 return (
                     <StyledOldComment key={comment._id}>
                     <StyledLinkProf to={`/profile/${review.handle}`}>
@@ -131,6 +132,8 @@ const StyledLinkProf= styled(NavLink)`
 `
 const StyledImg = styled.img`
     width:300px;
+    height:500px;
+    object-fit:cover;
     border-radius:5px;
     box-shadow: rgba(170, 194, 110, 0.4) 0px 5px, rgba(170, 194, 110, 0.3) 0px 10px, rgba(170, 194, 110, 0.2) 0px 15px, rgba(170, 194, 110, 0.1) 0px 20px, rgba(170, 194, 110, 0.05) 0px 25px;
 `

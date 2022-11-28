@@ -30,14 +30,14 @@ const Profile = () => {
         }, [handle]);
         
 
-        if (loadingReviews) {
+        if (loadingReviews || loadingUser || !userpage || !reviews) {
             return <StyledLoader color="#9fe3a1"/>
         }
         return ( 
         <StyledContBig>
             <StyledNameBig>
-            <div>{userpage?.displayName}</div>
-            {userpage?.handle === user?.nickname
+            <div>{userpage.displayName}</div>
+            {userpage.handle === user?.nickname
             ? <Link to='/createreview'><StyledButton>Make a review</StyledButton></Link>
             :<div></div>}
             

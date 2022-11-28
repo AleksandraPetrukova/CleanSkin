@@ -47,6 +47,7 @@ const Homepage = () => {
 const StyledContBig = styled.div`
     height:100%;
     width:100%;
+    
 `
 const StyledSlogan = styled.div`
     font-size:40px;
