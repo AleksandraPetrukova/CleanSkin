@@ -19,7 +19,7 @@ const Footer = () => {
                 <div>Montreal, Canada</div>
             </div>
         </StyledCont>
-     );
+    );
 }
 
 const StyledCont = styled.div`

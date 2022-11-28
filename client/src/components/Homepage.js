@@ -45,8 +45,8 @@ const Homepage = () => {
 }
 
 const StyledContBig = styled.div`
-    height:100vh;
-    width:100vw;
+    height:100%;
+    width:100%;
 `
 const StyledSlogan = styled.div`
     font-size:40px;
@@ -86,6 +86,7 @@ const StyledLoader = styled(BounceLoader)`
     top: 300px;
     left: 45%;
     z-index: 5;
+    margin-bottom:400px;
 `
 const StyledName = styled.div`
     font-size:20px;

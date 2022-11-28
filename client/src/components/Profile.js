@@ -104,7 +104,7 @@ const StyledCont = styled.div`
 `
 const StyledContBig = styled.div`
     margin-top:50px;
-    
+    margin-bottom:400px;
     /* position:absolute; */
     /* left: 50px;
     top: 100px;
@@ -126,5 +126,6 @@ const StyledLoader = styled(BounceLoader)`
     top: 300px;
     left: 45%;
     z-index: 5;
+    margin-bottom:400px;
 `
 export default Profile;

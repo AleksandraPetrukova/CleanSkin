@@ -17,7 +17,7 @@ const Header = () => {
             </StyledLink>
             <SearchBar />
             <StyledProfile>
-                {!isAuthenticated? <div>Join us!</div>:
+                {!isAuthenticated? <StyledJoinUs>Join us!</StyledJoinUs>:
                 <StyledProfileLink to={`/profile/${user.nickname}`}>
                 <div>Hello, {user.given_name}</div>
                 </StyledProfileLink>}
@@ -30,6 +30,10 @@ const Header = () => {
     );
 }
 
+const StyledJoinUs = styled.div`
+    color:white;
+    font-size:17px;
+`
 const StyledProfile = styled.div`
     display:flex;
     flex-direction:row;

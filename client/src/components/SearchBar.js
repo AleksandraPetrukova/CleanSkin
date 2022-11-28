@@ -57,13 +57,11 @@ const SearchBar = () => {
             }}
             onKeyDown={(ev)=>{if (ev.key ==='Enter')
             {
-                console.log('before navigate', matchedSuggestions)
+                // console.log('before navigate', matchedSuggestions)
                 // refInput.current.value=""
                 setNewMatchSug(matchedSuggestions)
                 navigate(`/matchedsuggestions`)
-                
                 setValue("")
-                
             }
             }}
             />

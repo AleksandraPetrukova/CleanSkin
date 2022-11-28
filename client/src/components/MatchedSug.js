@@ -8,7 +8,7 @@ const MatchedSug = () => {
     // console.log("MCS", matchedSuggestions)
     
     return ( 
-        !suggestions? <div>Loading</div>:
+        !newMatchSug? <div>Loading</div>:
         <div>
             {newMatchSug.map((review) => {
                 return (

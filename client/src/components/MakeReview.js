@@ -49,6 +49,9 @@ const MakeReview = () => {
             body: JSON.stringify({...formData, imgSrc: cloudinaryData.secure_url, handle: user?.nickname, displayName: user?.name})
             })
             const addReviewNewData = await addReview.json()
+            .then(data => {
+                navigate("/thankyou")
+            })
         }
         else {
             const addReview = await fetch(`/make-review`, {
@@ -184,5 +187,6 @@ const StyledLoader = styled(BounceLoader)`
     top: 300px;
     left: 45%;
     z-index: 5;
+    margin-bottom:400px;
 `
 export default MakeReview;

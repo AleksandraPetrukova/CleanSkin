@@ -9,6 +9,7 @@ import MatchedSug from "./components/MatchedSug";
 import Footer from "./components/Footer";
 import GlobalStyles from "./components/GlobalStyles";
 import ThankYou from "./components/ThankYou";
+import DeleteSuccess from "./components/DeleteSuccess";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/createreview" element={<MakeReview/>}/>
           <Route path="/matchedsuggestions" element={<MatchedSug/>}/>
           <Route path="/thankyou" element={<ThankYou/>}/>
+          <Route path="/deletesuccess" element={<DeleteSuccess/>}/>
         </Routes>
       </Wrapper>
       <Footer/>

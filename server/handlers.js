@@ -59,7 +59,7 @@ const getUser = async (req, res) => {
 const getReview = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     const { reviewId } = req.params;
-    console.log(reviewId)
+    // console.log(reviewId)
     await client.connect();
     const db = client.db("ClearSkin");
     const result = await db.collection("reviews").findOne({_id: reviewId});
@@ -73,6 +73,9 @@ const getReview = async (req, res) => {
     client.close();
 }
 
+//////////////////
+// All new user //
+//////////////////
 const addNewUser = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     const { handle, email, displayName } = req.body;
@@ -87,6 +90,9 @@ const addNewUser = async(req, res) => {
     client.close();
 }
 
+////////////////////////
+// Find user by email //
+////////////////////////
 const checkUserEmail = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     const { email } = req.body;
@@ -105,6 +111,9 @@ const checkUserEmail = async(req, res) => {
     
 }
 
+///////////////////////////
+// All reviews from user //
+///////////////////////////
 const getUserReviews = async (req,res) => {
     const client = new MongoClient(MONGO_URI, options);
     const { handle } = req.params;
@@ -119,6 +128,9 @@ const getUserReviews = async (req,res) => {
     
 }
 
+////////////////////
+// Add new review //
+////////////////////
 const addReview = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
@@ -131,6 +143,9 @@ const addReview = async (req, res) => {
     client.close();
 }
 
+/////////////////////
+// Add new comment //
+/////////////////////
 const addNewComment = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
@@ -146,6 +161,21 @@ const addNewComment = async (req, res) => {
     client.close();
 }
 
+const deleteReview = async (req,res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("ClearSkin");
+    // const { reviewId } = req.params;
+    const result = await db.collection("reviews").deleteOne(req.body);
+    if (result.deletedCount > 0) {
+        res.status(204).json({ status: 204, message: "success" });
+    }
+    else {
+        res.status(400).json({ status: 400, message: "id not found" });
+    }
+    client.close();
+}
+
 module.exports = {
     getAllUsers,
     getAllPosts,
@@ -156,4 +186,5 @@ module.exports = {
     getUserReviews,
     addReview,
     addNewComment,
+    deleteReview,
 };
