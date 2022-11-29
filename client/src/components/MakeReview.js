@@ -110,7 +110,7 @@ const MakeReview = () => {
                         })}
                     </StyledRowNumb>
                 </div>
-                <StyledFillAbove>*Please, fill all required fields above</StyledFillAbove>
+                <StyledFillAbove>*Required fields</StyledFillAbove>
                 <StyledLabel>Upload your image</StyledLabel>
                 <input type="file" onChange={(e) => {setUploadedFile(e.target.files)}}></input>
                 <StyledButton type="submit">Submit</StyledButton>
