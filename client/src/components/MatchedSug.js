@@ -2,14 +2,15 @@ import { useContext } from "react";
 import { MatchedContext } from "./MatchedContext";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import {BounceLoader} from "react-spinners";
 
 const MatchedSug = () => {
     const { newMatchSug, matchedSuggestions , suggestions, setValue} = useContext(MatchedContext)
     // console.log("MCS", matchedSuggestions)
     
     return ( 
-        !newMatchSug? <div>Loading</div>:
-        <div>
+        !newMatchSug? <StyledLoader color="#9fe3a1"/>:
+        <StyledContBigAll>
             {newMatchSug.map((review) => {
                 return (
                     <div key ={review._id}>
@@ -24,7 +25,7 @@ const MatchedSug = () => {
                 )
             })}
             
-        </div>
+        </StyledContBigAll>
      );
 }
 const StyledRating = styled.div`
@@ -57,5 +58,14 @@ const StyledCont = styled.div`
     margin:20px;
     padding-left:50px;
 `
-
+const StyledContBigAll = styled.div`
+    margin-bottom:300px;
+`
+const StyledLoader = styled(BounceLoader)`
+    position: absolute;
+    top: 300px;
+    left: 45%;
+    z-index: 5;
+    margin-bottom:600px;
+`
 export default MatchedSug;

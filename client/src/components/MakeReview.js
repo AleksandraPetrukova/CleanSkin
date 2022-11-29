@@ -4,6 +4,7 @@ import {useAuth0} from '@auth0/auth0-react'
 import { CurrentUserContext } from "./CurrentUserContext";
 import {BounceLoader} from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import MyEditor from "./MyEditor";
 
 const MakeReview = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -72,6 +73,7 @@ const MakeReview = () => {
     if (isLoading) {
         return <StyledLoader color="#9fe3a1"/>
     }
+    // console.log(formData)
     return ( 
         <StyledCont>
             <StyledForm onSubmit={handleSubmit}>
@@ -95,7 +97,10 @@ const MakeReview = () => {
                 </StyledCard>
                 <StyledCard>
                     <StyledLabel>Your review*:</StyledLabel>
-                    <StyledtextArea type="text" id="review" name="review" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/>
+                    {/* <StyledtextArea type="text" id="review" name="review" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/> */}
+                    
+                    <MyEditor setFormData={setFormData} formData={formData}/>
+                    
                 </StyledCard>
                 <div>
                     <StyledLabel>Your rating*:</StyledLabel>
@@ -135,6 +140,7 @@ const StyledButton = styled.button`
         background-color:#aac26e;
     }
 `
+//was a textarea before
 const StyledtextArea = styled.textarea`
     width: 400px;
     height:150px;
@@ -174,7 +180,7 @@ const StyledHeading = styled.div`
 const StyledForm = styled.form`
     border: 2px solid lightgray;
     padding: 50px;
-    width: 600px;
+    width: 700px;
     display:flex;
     flex-direction:column;
 `
@@ -183,7 +189,7 @@ const StyledCont = styled.div`
     /* justify-content:center; */
     margin-top:100px;
     width: 100%;
-    height:100vh;
+    margin-bottom:200px;
     align-items:center;
     flex-direction:column;
     

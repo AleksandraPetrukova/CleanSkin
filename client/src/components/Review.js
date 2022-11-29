@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {BounceLoader} from "react-spinners";
 import {useAuth0} from '@auth0/auth0-react'
 import DeleteReview from "./DeleteReview";
+import DOMPurify from 'dompurify';
 
 const Review = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -56,7 +57,8 @@ const Review = () => {
                             </StyledLinkProf>
                             <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
                         </StyledNameRating>
-                        <div>{review.review}</div>
+                        {/* dangerouslySetInnerHTML sending html from myeditor to mongo as a html and returning it back styled */}
+                        <div dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(review.review) }}></div>
                     </div>
                 </StyledCard>
                 {review.handle === user?.nickname &&
@@ -223,6 +225,6 @@ const StyledLoader = styled(BounceLoader)`
     top: 300px;
     left: 45%;
     z-index: 5;
-    margin-bottom:400px;
+    margin-bottom:600px;
 `
 export default Review;

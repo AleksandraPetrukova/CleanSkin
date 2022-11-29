@@ -126,6 +126,6 @@ const StyledLoader = styled(BounceLoader)`
     top: 300px;
     left: 45%;
     z-index: 5;
-    margin-bottom:400px;
+    margin-bottom:600px;
 `
 export default Profile;
