@@ -176,6 +176,31 @@ const deleteReview = async (req,res) => {
     client.close();
 }
 
+const updateReview = async (req,res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("ClearSkin");
+    const { reviewId } = req.params;
+    const query = { _id:reviewId}
+    const {type, productName, review, rating, imgSrc} = req.body
+    const oldData = await db.collection("reviews").findOne(query); 
+    const newValues = { $set: {
+                            type: type?type:oldData.type,
+                            productName: productName?productName:oldData.productName,
+                            review: review?review:oldData.review,
+                            rating: rating?rating:oldData.rating,
+                            imgSrc: imgSrc?imgSrc:oldData.imgSrc
+    }}
+
+    const result = await db.collection("reviews").updateOne(query, newValues)
+
+    result.modifiedCount>=1
+        ?res.status(201).json({ status: 201, message: "it worked", data: result})
+        :res.status(500).json({ status: 500, message: "it didn't work" });
+
+    client.close();
+}
+
 module.exports = {
     getAllUsers,
     getAllPosts,
@@ -187,4 +212,5 @@ module.exports = {
     addReview,
     addNewComment,
     deleteReview,
+    updateReview,
 };

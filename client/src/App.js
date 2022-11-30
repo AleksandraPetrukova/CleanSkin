@@ -10,6 +10,8 @@ import Footer from "./components/Footer";
 import GlobalStyles from "./components/GlobalStyles";
 import ThankYou from "./components/ThankYou";
 import DeleteSuccess from "./components/DeleteSuccess";
+import UpdateReview from "./components/UpdateReview";
+import UpdateSuccess from "./components/UpdateSuccess";
 
 const App = () => {
   return (
@@ -25,6 +27,8 @@ const App = () => {
           <Route path="/matchedsuggestions" element={<MatchedSug/>}/>
           <Route path="/thankyou" element={<ThankYou/>}/>
           <Route path="/deletesuccess" element={<DeleteSuccess/>}/>
+          <Route path="/updatereview/:reviewId" element={<UpdateReview/>}/>
+          <Route path="/successfulupdate" element={<UpdateSuccess/>}/>
         </Routes>
       </Wrapper>
       <Footer/>

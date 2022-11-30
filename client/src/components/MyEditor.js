@@ -4,9 +4,28 @@ import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import styled from "styled-components";
+import { convertFromHTML, ContentState } from 'draft-js'
 
-const MyEditor =({setFormData, formData}) =>  {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const MyEditor =({setFormData, formData, value, setProdReview}) =>  {
+    // const overview = value;
+
+    // const contentDataState = ContentState.createFromBlockArray(convertFromHTML(overview));
+    // const editorDataState = EditorState.createWithContent(contentDataState);
+    
+    const editorFunction = () => {
+      if(value.length === 0)
+        return EditorState.createEmpty()
+      else {
+        const overview = value
+        const contentDataState = ContentState.createFromBlockArray(convertFromHTML(overview));
+        const editorDataState = EditorState.createWithContent(contentDataState);
+        return editorDataState
+      }
+     }
+     const [editorState, setEditorState] = useState(editorFunction)
+
+    // const [editorState, setEditorState] = useState(editorDataState);
+  // const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const handleChange = (data) => {
     setEditorState(data);
   };
@@ -17,14 +36,14 @@ const MyEditor =({setFormData, formData}) =>  {
 
   const toolbarOptions = {
     options: ["inline",
-              // 'fontSize',
-              // "emoji",
-              'list'],
+              'list',
+              'textAlign',
+              ],
+              
     inline: {
       options: ["bold", "italic", "underline", "strikethrough"],
     },
     fontSize: {
-      
       options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96],
     }
   };
@@ -32,9 +51,11 @@ const MyEditor =({setFormData, formData}) =>  {
   return (
     <StyledTxt className="app">
       <Editor
+        
         id="review"
-        onChange={(e) => { console.log(e)
-          setFormData({...formData, "review" : htmlData})
+        onChange={(e) => { return(
+          setProdReview(htmlData),
+          setFormData({...formData, "review" : htmlData}))
         }}
         editorState={editorState}
         onEditorStateChange={handleChange}

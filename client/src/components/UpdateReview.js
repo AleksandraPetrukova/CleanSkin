@@ -1,18 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import {useAuth0} from '@auth0/auth0-react'
-import { CurrentUserContext } from "./CurrentUserContext";
 import {BounceLoader} from "react-spinners";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MyEditor from "./MyEditor";
 
-const MakeReview = () => {
-    const { user, isAuthenticated, isLoading } = useAuth0();
+const UpdateReview = () => {
     const url = "https://api.cloudinary.com/v1_1/dcecm3xxu/image/upload";
     const form = document.querySelector("form");
-    const {currentUser} = useContext(CurrentUserContext)
     const [formData, setFormData] = useState({});
     const [uploadedFile, setUploadedFile] = useState()
+    const {reviewId} = useParams()
+    const [review, setReview] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [name, setName] = useState(null)
+    const [ratingNumb , setRatingNumb] = useState(null)
+    const [newType, setNewType] = useState(null)
+    const [prodReview, setProdReview] = useState(null)
+
     const navigate = useNavigate()
     let numbers =[];
     for (let i = 1; i <= 10; i++) {
@@ -25,6 +29,18 @@ const MakeReview = () => {
             [key]: value
         })
     }
+    useEffect(() => {
+        fetch(`/get-review/${reviewId}`)
+        .then (res => res.json()
+        .then(data => {
+            // console.log(data.data)
+            setName(data.data.productName)
+            setRatingNumb(data.data.rating)
+            setNewType(data.data.type)
+            setProdReview(data.data.review)
+            setLoading(false);
+        }))
+    }, [reviewId]);
     // console.log(user)
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,7 +49,7 @@ const MakeReview = () => {
         //file uploaded
         if(uploadedFile){
             const fileData = new FormData();
-            console.log(uploadedFile)
+            // console.log(uploadedFile)
             fileData.append("file", uploadedFile[0]);
             fileData.append("upload_preset", "poi7lhvc");
             const cloudinaryRes = await fetch (url, {
@@ -41,66 +57,65 @@ const MakeReview = () => {
                 body: fileData
             })
             const cloudinaryData = await cloudinaryRes.json()
-            const addReview = await fetch(`/make-review`, {
-            method: "POST",
+            const addReview = await fetch(`/update-review/${reviewId}`, {
+            method: "PATCH",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({...formData, imgSrc: cloudinaryData.secure_url, handle: user?.nickname, displayName: user?.name})
+            body: JSON.stringify({...formData, imgSrc: cloudinaryData.secure_url})
             })
             const addReviewNewData = await addReview.json()
             .then(data => {
-                navigate("/thankyou")
+                navigate("/successfulupdate")
             })
         }
         else {
-            const addReview = await fetch(`/make-review`, {
-                method: "POST",
+            const addReview = await fetch(`/update-review/${reviewId}`, {
+                method: "PATCH",
                 headers: {
                     "Accept": "application/json",
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({...formData, handle: user?.nickname, displayName: user?.name })
+                body: JSON.stringify(formData)
                 })
                 const addReviewNewData = await addReview.json()
                 .then(data => {
-                    navigate("/thankyou")
+                    navigate("/successfulupdate")
                 })
                 
         }
     }
-    if (isLoading) {
+    // console.log(ratingNumb)
+    if (loading) {
         return <StyledLoader color="#9fe3a1"/>
     }
-    // console.log(formData)
     return ( 
         <StyledCont>
             <StyledForm onSubmit={handleSubmit}>
-                <StyledHeading>Write your review:</StyledHeading>
+                <StyledHeading>Update your review:</StyledHeading>
                 <StyledCard>
                     <StyledLabel>Product Name*:</StyledLabel>
-                    <StyledInput required type="text" id="productName" name="productName" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/>
+                    <StyledInput type="text" id="productName" name="productName" value={name} onChange={(e) => {return (setName(e.target.value), setFormData({...formData, [e.target.id] : e.target.value}))}}/>
                 </StyledCard>
                 <StyledCard>
                     <StyledLabel>Type*:</StyledLabel>
-                    <select required type="text" id="type" name="type" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}>
+                    <select type="text" id="type" name="type" onChange={(e) => {return(setNewType(e.target.value),setFormData({...formData, [e.target.id] : e.target.value}))}}>
                         <option value="">Select type of the product</option>
-                        <option value="Cleansers">Cleansers</option>
-                        <option value="Toners">Toners</option>
-                        <option value="Essences">Essences</option>
-                        <option value="Moisturizers">Moisturizers</option>
-                        <option value="Treatments">Treatments</option>
-                        <option value="Exfoliators">Exfoliators</option>
-                        <option value="Masks">Masks</option>
+                        <option value="Cleansers" selected={"Cleansers"===newType? "selected":""}>Cleansers</option>
+                        <option value="Toners" selected={"Toners"===newType? "selected":""}>Toners</option>
+                        <option value="Essences" selected={"Essences"===newType? "selected":""}>Essences</option>
+                        <option value="Moisturizers" selected={"Moisturizers"===newType? "selected":""}>Moisturizers</option>
+                        <option value="Treatments" selected={"Treatments"===newType? "selected":""}>Treatments</option>
+                        <option value="Exfoliators" selected={"Exfoliators"===newType? "selected":""}>Exfoliators</option>
+                        <option value="Masks" selected={"Masks"===newType? "selected":""}>Masks</option>
                     </select>
                 </StyledCard>
                 <StyledCard>
                     <StyledLabel>Your review*:</StyledLabel>
-                    {/* <StyledtextArea type="text" id="review" name="review" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/> */}
-                    
-                    <MyEditor setFormData={setFormData} formData={formData} value={""}/>
-                    
+                    {/* <StyledtextArea type="text" id="review" value={prodReview} name="review" onChange={(e) => {return (setProdReview(e.target.value), setFormData({...formData, [e.target.id] : e.target.value}))}}/> */}
+                    <MyEditor setFormData={setFormData} formData={formData} value={prodReview} setProdReview={setProdReview}/>
+                    {/* Myeditor gives a lot of errors */}
                 </StyledCard>
                 <div>
                     <StyledLabel>Your rating*:</StyledLabel>
@@ -108,16 +123,17 @@ const MakeReview = () => {
                         {numbers.map((number) => {
                             return (
                                 <StyledRating key={number}>
-                                    <input required type="radio" name="radiobutton" value={number} onChange={(e) => {setFormData({...formData, rating : e.target.value})}}/>
+                                    <input type="radio" name="radiobutton" checked={number==Number(ratingNumb)} value={number} onChange={(e) => {return(setRatingNumb(e.target.value), setFormData({...formData, rating : e.target.value}))}}/>
                                     <label>{number}</label>
                                 </StyledRating>
                             )
                         })}
                     </StyledRowNumb>
                 </div>
-                <StyledFillAbove>*Required fields</StyledFillAbove>
-                <StyledLabel>Upload your image</StyledLabel>
+                
+                <StyledLabel>Upload your image*:</StyledLabel>
                 <input type="file" onChange={(e) => {setUploadedFile(e.target.files)}}></input>
+                <StyledFillAbove>*Fill only required fields</StyledFillAbove>
                 <StyledButton type="submit">Submit</StyledButton>
             </StyledForm>
         </StyledCont>
@@ -201,4 +217,4 @@ const StyledLoader = styled(BounceLoader)`
     z-index: 5;
     margin-bottom:400px;
 `
-export default MakeReview;
+export default UpdateReview;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {BounceLoader} from "react-spinners";
 import {useAuth0} from '@auth0/auth0-react'
@@ -13,6 +13,7 @@ const Review = () => {
     const [comments, setComments] = useState(null)
     const [userComment, setUserComment] = useState({})
     const [showDeleteOption, setShowDeleteOption] = useState(false)
+    const navigate = useNavigate()
     
     const {reviewId} = useParams();
     useEffect(() => {
@@ -58,16 +59,27 @@ const Review = () => {
                             <StyledRating><StyledNum>{review.rating}</StyledNum>/10</StyledRating>
                         </StyledNameRating>
                         {/* dangerouslySetInnerHTML sending html from myeditor to mongo as a html and returning it back styled */}
-                        <div dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(review.review) }}></div>
+                        <div 
+                        dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(review.review) }}
+                        >
+                            {/* {review.review} */}
+                            </div>
                     </div>
                 </StyledCard>
-                {review.handle === user?.nickname &&
-                    <StyledDeleteBtn>
-                            <StyledBtnDel onClick={() => {
-                            setShowDeleteOption(true)
-                            }}>Delete</StyledBtnDel>
-                            {showDeleteOption && <DeleteReview _id={review._id} showDeleteOption={showDeleteOption} setShowDeleteOption={setShowDeleteOption}/>}
-                    </StyledDeleteBtn>}
+                <StyledButtons>
+                    
+                    {review.handle === user?.nickname &&
+                        <StyledDeleteBtn>
+                                <StyledBtnDel onClick={() => {
+                                setShowDeleteOption(true)
+                                }}>Delete</StyledBtnDel>
+                                {showDeleteOption && <DeleteReview _id={review._id} showDeleteOption={showDeleteOption} setShowDeleteOption={setShowDeleteOption}/>}
+                        </StyledDeleteBtn>}
+                    {review.handle === user?.nickname &&
+                        <div>
+                            <StyledUpdatebtn onClick={() => navigate(`/updatereview/${review._id}`)}>Update</StyledUpdatebtn>
+                        </div>}
+                </StyledButtons>
             </StyledCardDeleteBtn>
         <StyledCommentCont>
             <StyledCom>
@@ -97,6 +109,23 @@ const Review = () => {
     );
 }
 
+const StyledButtons = styled.div`
+    display:flex;
+    flex-direction:row;
+    gap:20px;
+    justify-content: space-between;
+`
+const StyledUpdatebtn = styled.button`
+    width:70px;
+    background-color:rgba(255, 198, 92);
+    border: none;
+    border-radius:5px;
+    padding:5px;
+    font-size:15px;
+    :hover{
+        font-size: 17px;
+    }
+`
 const StyledBtnDel = styled.button`
     width:70px;
     background-color:rgba(255, 0, 0, .4);
