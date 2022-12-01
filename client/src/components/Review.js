@@ -60,9 +60,9 @@ const Review = () => {
                         </StyledNameRating>
                         {/* dangerouslySetInnerHTML sending html from myeditor to mongo as a html and returning it back styled */}
                         <div 
-                        dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(review.review) }}
+                        // dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(review.review) }}
                         >
-                            {/* {review.review} */}
+                            {review.review}
                             </div>
                     </div>
                 </StyledCard>
