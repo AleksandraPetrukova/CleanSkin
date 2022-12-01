@@ -13,6 +13,7 @@ const Review = () => {
     const [comments, setComments] = useState(null)
     const [userComment, setUserComment] = useState({})
     const [showDeleteOption, setShowDeleteOption] = useState(false)
+    const [onlyComment, setOnlyComment] = useState("")
     const navigate = useNavigate()
     
     const {reviewId} = useParams();
@@ -37,7 +38,7 @@ const Review = () => {
             body: JSON.stringify(userComment)
         })
     }
-    
+    // console.log(userComment)
     if (loading || !review || !comments) {
         return <StyledLoader color="#9fe3a1"/>
     }
@@ -86,9 +87,11 @@ const Review = () => {
                 {!isAuthenticated?<div>To write a comment please log in</div>:
                 <div> 
                     <form onSubmit={handleSubmit}>
-                        <StyledTextArea type="text" id="comment" name="comment" onChange={(e) => {setUserComment({...userComment, comment : e.target.value})}}></StyledTextArea>
-                        <StyledBtn disabled={userComment.length===0} type="submit">Comment</StyledBtn>
+                        <StyledTextArea type="text" id="comment" name="comment" onChange={(e) => {return( setOnlyComment(e.target.value) , setUserComment({...userComment, comment : e.target.value}))}}></StyledTextArea>
+                        <StyledComNumb colorprop={280 - onlyComment.length>55? "gray":280 - onlyComment.length>=0?"#ffc65c":"red"}>{280-onlyComment.length}</StyledComNumb>
+                        <StyledBtn disabled={280-onlyComment.length<0 || onlyComment.length===0} type="submit">Comment</StyledBtn>
                     </form>
+                    
                 </div>}
             </StyledCom>
             {comments.length===0? <div>No comments yet</div>:
@@ -109,9 +112,14 @@ const Review = () => {
     );
 }
 
+const StyledComNumb = styled.div`
+    color:${props => props.colorprop};
+    display:flex;
+    justify-content:flex-end;
+`
 const StyledButtons = styled.div`
     display:flex;
-    flex-direction:row;
+
     gap:20px;
     justify-content: space-between;
 `
@@ -178,6 +186,11 @@ const StyledBtn=styled.button`
     font-size: 15px;
     :hover{
         background-color:#aac26e;
+    }
+    cursor: pointer;
+    :disabled {
+        opacity:50%;
+        cursor: not-allowed;
     }
 `
 const StyledOldComment = styled.div`

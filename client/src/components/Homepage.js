@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {useAuth0} from '@auth0/auth0-react'
 import Banner from "../assets/hero-natural.jpg"
+import Banner2 from "../assets/banner.webp"
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import {BounceLoader} from "react-spinners";
@@ -27,8 +28,12 @@ const Homepage = () => {
     }
     return ( 
         <StyledContBig>
-            <StyledImg src={Banner}/>
+            <StyledImg src={Banner2}/>
             <StyledSlogan>Your skin care guide to <StyledGlow>GLOW UP</StyledGlow></StyledSlogan>
+            <StyledTextSlogan>
+                <StyledStart>START YOUR SKIN CARE JOURNEY</StyledStart>
+                <div>Skin care is a personal journey and this website will help you to find what's best for you!</div>
+            </StyledTextSlogan>
             {reviews.map((review) => {
                 return (
                     <StyledLink to={`/review/${review._id}`} key={review._id}>
@@ -44,32 +49,46 @@ const Homepage = () => {
     )
 }
 
+const StyledStart = styled.div`
+    font-size:35px;
+`
+const StyledTextSlogan = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction:column;
+    margin-top:40px;
+    margin-bottom:70px;
+    font-size:25px;
+`
 const StyledContBig = styled.div`
     
     width:100%;
     margin-bottom:200px;
 `
 const StyledSlogan = styled.div`
-    font-size:40px;
+    /* background-color:rgba(47, 87, 48, 0.3); */
+    color:#2f5730;
+    font-size:35px;
     z-index:2;
     position: absolute;
     top: 200px;
-    left: 70%;
+    left: 20%;
     display:flex;
     flex-direction: column;
-    color:white;
+    
 `
 const StyledGlow = styled.span`
-    color:#8CDBA9;
+    color:#2f5730;
     :hover{
         animation: change 4s infinite;
     }
     @keyframes change {
-        0% {color: #8CDBA9; left:0px; top:0px;}
+        0% {color: #2f5730; left:0px; top:0px;}
         25% {color: #33AB5F; left:200px; top: 0px;}
         50% {color: #fc8953; left: 200px; top: 200px;}
         75% {color: #ffc65c; left: 0px; top: 200px;}
-        100% {color: #8CDBA9;left:0px; top:0px;}
+        100% {color: #2f5730;left:0px; top:0px;}
     }
 `
 const StyledRating = styled.div`
@@ -115,5 +134,9 @@ const StyledCont = styled.div`
 
 const StyledImg = styled.img`
     width: 100%;
+    height:100vh;
+    object-fit:cover;
+    /* height:350px;
+    object-fit:cover; */
 `
 export default Homepage;
