@@ -116,6 +116,7 @@ const StyledComNumb = styled.div`
     color:${props => props.colorprop};
     display:flex;
     justify-content:flex-end;
+    font-size:13px;
 `
 const StyledButtons = styled.div`
     display:flex;
@@ -183,7 +184,8 @@ const StyledBtn=styled.button`
     border-radius:5px;
     height:30px;
     width:80px;
-    font-size: 15px;
+    font-size: 14px;
+    padding:3px;
     :hover{
         background-color:#aac26e;
     }
