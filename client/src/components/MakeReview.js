@@ -97,9 +97,9 @@ const MakeReview = () => {
                 </StyledCard>
                 <StyledCard>
                     <StyledLabel>Your review*:</StyledLabel>
-                    <StyledtextArea type="text" id="review" name="review" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/>
+                    {/* <StyledtextArea type="text" id="review" name="review" onChange={(e) => {setFormData({...formData, [e.target.id] : e.target.value})}}/> */}
                     
-                    {/* <MyEditor setFormData={setFormData} formData={formData} value={""}/> */}
+                    <MyEditor setFormData={setFormData} formData={formData} value={""}/>
                     
                 </StyledCard>
                 <div>

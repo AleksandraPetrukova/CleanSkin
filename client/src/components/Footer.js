@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { FiGithub } from "react-icons/fi";
+import { FiLinkedin } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return ( 
@@ -14,6 +17,14 @@ const Footer = () => {
                 <StyledHover>Accessibility</StyledHover>
             </div>
             <div>
+                <StyledIcons>
+                    <a  href="https://github.com/AleksandraPetrukova" target="_blank">
+                    <FiGithub/>
+                    </a>
+                    <a href="https://www.linkedin.com/in/aleksandra-petrukova-7b1135255/">
+                    <FiLinkedin/>
+                    </a>
+                </StyledIcons>
                 <div>cleanskin@cleanskin.com</div>
                 <div>0000 Generic Street, office 777</div>
                 <div>Montreal, Canada</div>
@@ -22,6 +33,14 @@ const Footer = () => {
     );
 }
 
+const StyledIcons = styled.div`
+    font-size: 25px;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+    margin-bottom:20px;
+    
+`
 const StyledHover = styled.div`
     :hover {
         text-decoration:underline;

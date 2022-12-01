@@ -6,7 +6,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import styled from "styled-components";
 import { convertFromHTML, ContentState } from 'draft-js'
 
-const MyEditor =({setFormData, formData, value}) =>  {
+const MyEditorDel =({setFormData, formData, value, setProdReview}) =>  {
     // const overview = value;
 
     // const contentDataState = ContentState.createFromBlockArray(convertFromHTML(overview));
@@ -53,9 +53,9 @@ const MyEditor =({setFormData, formData, value}) =>  {
       <Editor
         
         id="review"
-        onChange={(e) => { 
-          // setProdReview(htmlData),
-          setFormData({...formData, "review" : htmlData})
+        onChange={(e) => { return(
+          setProdReview(htmlData),
+          setFormData({...formData, "review" : htmlData}))
         }}
         editorState={editorState}
         onEditorStateChange={handleChange}
@@ -101,4 +101,4 @@ const StyledTxt = styled.div`
   background-color: #fafafa;
 }
 `
-export default MyEditor;
+export default MyEditorDel;

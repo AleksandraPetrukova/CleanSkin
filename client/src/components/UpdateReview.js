@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {BounceLoader} from "react-spinners";
 import { useNavigate, useParams } from "react-router-dom";
 import MyEditor from "./MyEditor";
+import MyEditorDel from "./MyEditorDel";
 
 const UpdateReview = () => {
     const url = "https://api.cloudinary.com/v1_1/dcecm3xxu/image/upload";
@@ -113,8 +114,8 @@ const UpdateReview = () => {
                 </StyledCard>
                 <StyledCard>
                     <StyledLabel>Your review*:</StyledLabel>
-                    <StyledtextArea type="text" id="review" value={prodReview} name="review" onChange={(e) => {return (setProdReview(e.target.value), setFormData({...formData, [e.target.id] : e.target.value}))}}/>
-                    {/* <MyEditor setFormData={setFormData} formData={formData} value={prodReview} setProdReview={setProdReview}/> */}
+                    {/* <StyledtextArea type="text" id="review" value={prodReview} name="review" onChange={(e) => {return (setProdReview(e.target.value), setFormData({...formData, [e.target.id] : e.target.value}))}}/> */}
+                    <MyEditorDel setFormData={setFormData} formData={formData} value={prodReview} setProdReview={setProdReview}/>
                     {/* Myeditor gives a lot of errors */}
                 </StyledCard>
                 <div>
