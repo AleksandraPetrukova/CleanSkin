@@ -98,6 +98,7 @@ const StyledPlace = styled.div`
     font-size: 15px;
     font-style:italic;
     color: gray;
+    margin-left:5px;
 `
 const StyledSpan = styled.span`
     display:flex;
@@ -106,14 +107,16 @@ const StyledSpan = styled.span`
     width: 600px;
 `
 const StyledLi=styled.li`
-padding:5px;
+    padding:5px;
+    font-size:15px;
     :hover {
-        background-color: #aac26e;
+        background-color:rgba(255, 198, 92, .6);
         border-radius:10px;
     }
     
 `
 const StyledUl = styled.ul`
+    width:650px;
     position:absolute;
     background-color: rgba(255, 255, 255, .5);
     list-style-type: none;
