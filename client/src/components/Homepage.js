@@ -34,7 +34,9 @@ const Homepage = () => {
                 <StyledStart>START YOUR SKIN CARE JOURNEY</StyledStart>
                 <div>Skin care is a personal journey and this website will help you to find what's best for you!</div>
             </StyledTextSlogan>
+            <StyledAllReviewTxt>Best reviews (with rating 8 or higher)</StyledAllReviewTxt>
             {reviews.map((review) => {
+                if (Number(review.rating) >= 8) {
                 return (
                     <StyledLink to={`/review/${review._id}`} key={review._id}>
                         <StyledCont>
@@ -43,12 +45,17 @@ const Homepage = () => {
                             <StyledRating>Rating: <StyledNumb>{review.rating}</StyledNumb>/10</StyledRating>
                         </StyledCont>
                     </StyledLink>
-                )
+                )}
             })}
         </StyledContBig>
     )
 }
 
+const StyledAllReviewTxt = styled.div`
+    font-size:23px;
+    margin:30px;
+    border-bottom:2px solid lightgray;
+`
 const StyledStart = styled.div`
     font-size:35px;
 `
@@ -59,7 +66,7 @@ const StyledTextSlogan = styled.div`
     flex-direction:column;
     margin-top:40px;
     margin-bottom:70px;
-    font-size:25px;
+    font-size:28px;
 `
 const StyledContBig = styled.div`
     

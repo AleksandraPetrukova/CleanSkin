@@ -12,6 +12,7 @@ import ThankYou from "./components/ThankYou";
 import DeleteSuccess from "./components/DeleteSuccess";
 import UpdateReview from "./components/UpdateReview";
 import UpdateSuccess from "./components/UpdateSuccess";
+import AllReviews from "./components/AllReviews";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/deletesuccess" element={<DeleteSuccess/>}/>
           <Route path="/updatereview/:reviewId" element={<UpdateReview/>}/>
           <Route path="/successfulupdate" element={<UpdateSuccess/>}/>
+          <Route path="/allreviews" element={<AllReviews/>}/>
         </Routes>
       </Wrapper>
       <Footer/>

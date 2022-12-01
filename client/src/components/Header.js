@@ -15,6 +15,10 @@ const Header = () => {
                 <StyledImg src={Logo}/>
                 <h1>ClearSkin</h1>
             </StyledLink>
+            <StyledAllReviewslink to="/allreviews">
+            <div>All reviews</div>
+            </StyledAllReviewslink>
+            
             <SearchBar />
             <StyledProfile>
                 {!isAuthenticated? <StyledJoinUs>Join us!</StyledJoinUs>:
@@ -30,6 +34,14 @@ const Header = () => {
     );
 }
 
+const StyledAllReviewslink = styled(NavLink)`
+    text-decoration:none;
+    color: white;
+    font-size: 20px;
+    :hover{
+        color:#556b1e;
+    }
+`
 const StyledJoinUs = styled.div`
     color:white;
     font-size:17px;
