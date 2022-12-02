@@ -17,6 +17,7 @@ const {
     addNewComment,
     deleteReview,
     updateReview,
+    DeleteComment,
 } = require("./handlers");
 
 express ()
@@ -35,6 +36,7 @@ express ()
     .post ("/add-comment/:reviewId", addNewComment)
     .delete("/delete-review", deleteReview)
     .patch("/update-review/:reviewId", updateReview)
+    .delete("/delete-comment", DeleteComment)
 
     .listen(port, () => {
         console.log(`Example app listening on port ${port}`)

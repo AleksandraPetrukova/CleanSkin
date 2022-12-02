@@ -5,6 +5,7 @@ import {BounceLoader} from "react-spinners";
 import {useAuth0} from '@auth0/auth0-react'
 import DeleteReview from "./DeleteReview";
 import DOMPurify from 'dompurify';
+import DeleteComment from "./DeleteComment";
 
 const Review = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -14,9 +15,11 @@ const Review = () => {
     const [userComment, setUserComment] = useState({})
     const [showDeleteOption, setShowDeleteOption] = useState(false)
     const [onlyComment, setOnlyComment] = useState("")
+    const [reload, setReload] = useState(false);
     const navigate = useNavigate()
     
     const {reviewId} = useParams();
+    
     useEffect(() => {
         fetch(`/get-review/${reviewId}`)
         .then (res => res.json()
@@ -26,7 +29,7 @@ const Review = () => {
             setLoading(false);
             userComment.displayName = user?.name
         }))
-    }, [reviewId]);
+    }, [reviewId, reload]);
     
     const handleSubmit = (e) => {
         fetch(`/add-comment/${reviewId}`, {
@@ -38,7 +41,22 @@ const Review = () => {
             body: JSON.stringify(userComment)
         })
     }
-    // console.log(userComment)
+    const deleteComment = (_id, comment) => {
+        // setLoading(true)
+        fetch ("/delete-comment", {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({_id, comment})
+            })
+            .then((data) => {
+                setReload(!reload)
+                // setLoading(false)
+            })
+    }
+    // console.log(user)
     if (loading || !review || !comments) {
         return <StyledLoader color="#9fe3a1"/>
     }
@@ -98,10 +116,19 @@ const Review = () => {
             comments.map((comment) => {
                 return (
                     <StyledOldComment key={comment._id}>
+                    {user?.name===comment.displayName &&
+                    // <DeleteComment _id={review._id} comment={comment.comment}/>
+                    
+                        <StyledBtnDivCom>
+                            <StyledBtnCom onClick={() => deleteComment(review._id, comment.comment)}>X</StyledBtnCom>
+                        </StyledBtnDivCom>
+                    
+                    }    
                     <StyledLinkProf to={`/profile/${review.handle}`}>
                         <StyledCommentName>{comment.displayName}</StyledCommentName>
                     </StyledLinkProf>
                     <div>{comment.comment}</div>
+                    
                     </StyledOldComment>
                 )
             })
@@ -112,6 +139,18 @@ const Review = () => {
     );
 }
 
+const StyledBtnCom = styled.button`
+    border:none;
+    font-weight:bold;
+    color:gray;
+    :hover{
+        color:#ffc65c;
+    }
+`
+const StyledBtnDivCom = styled.div`
+    display:flex;
+    justify-content:flex-end;
+`
 const StyledComNumb = styled.div`
     color:${props => props.colorprop};
     display:flex;

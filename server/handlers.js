@@ -36,9 +36,9 @@ const getAllPosts = async (req, res) => {
     client.close();
 }
 
-////////////////////////
-// All user by handle //
-////////////////////////
+////////////////////
+// user by handle //
+////////////////////
 const getUser = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     const { handle } = req.params;
@@ -201,6 +201,22 @@ const updateReview = async (req,res) => {
     client.close();
 }
 
+const DeleteComment = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("ClearSkin")
+    const {_id, comment} = req.body
+    const query = {_id: _id};
+    const val = {$pull: {comments:{comment:comment}}}
+    const result = await db.collection("reviews").updateOne(query, val)
+
+    result.modifiedCount>=1
+        ?res.status(201).json({ status: 201, message: "it worked", data: result})
+        :res.status(500).json({ status: 500, message: "it didn't work" });
+
+    client.close();
+}   
+
 module.exports = {
     getAllUsers,
     getAllPosts,
@@ -213,4 +229,5 @@ module.exports = {
     addNewComment,
     deleteReview,
     updateReview,
+    DeleteComment,
 };
